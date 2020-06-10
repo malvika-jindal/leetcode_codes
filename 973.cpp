@@ -1,5 +1,6 @@
 // K Closest Points to Origin
 //288ms; better than 90% solutions in terms of time complexity
+//You can also use multimap and it gets sorted by itself. 
 
 class Solution {
 public:
