@@ -1,0 +1,76 @@
+//Maximal Rectangle
+//48 ms; better than 50% solutions
+
+class Solution {
+public:
+    int MAH(int arr[],int N)
+{
+        stack<pair<int,int>>right;
+	    stack<pair<int,int>>left;
+	    int r[N];
+	    int ans=0;
+	    right.push({arr[N-1],N-1});
+	    r[N-1]=N;
+	    int index=-1;
+	    left.push({arr[0],0});
+	    for(int i=N-2;i>=0;i--)
+	    {
+            while(!right.empty() && right.top().first>=arr[i])
+                right.pop();
+            
+            if(right.empty())
+                r[i]=N;
+            else
+                r[i]=right.top().second;
+                
+	        right.push({arr[i],i});
+	    }
+	    
+	   ans=arr[0]*abs(r[0]);
+	   
+	    for(int i=1;i<N;i++)
+	    {
+            while(!left.empty() && left.top().first>=arr[i])
+                left.pop();
+            
+            if(left.empty())
+                index=-1;
+            else
+                index=left.top().second;
+               
+	        left.push({arr[i],i});
+            ans=max(ans,(arr[i]*(r[i]-index-1)));
+	    }
+	    return ans;
+}
+
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        if(matrix.size()==0)
+        {
+            return 0;
+        }
+        int n=matrix.size();
+        int m=matrix[0].size();
+       // int M[n][m];
+        int M[m];
+        for(int i=0;i<m;i++)
+        {
+            M[i]=0;
+        }
+    int ans=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(matrix[i][j]=='0')
+                M[j]=0;
+            else if(matrix[i][j]=='1')
+                M[j]+=1;
+        }
+        ans=max(ans,MAH(M,m));
+    }
+    return ans;
+    }
+};
